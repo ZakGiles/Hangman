@@ -80,11 +80,11 @@ def screen_clear():
 # Hangman game 
 def hangman():
     screen_clear()
-    WinLoss = 0
+    win_lose = 0
 
-    liGuessedLetters = []
+    list_guessed_letters = []
 
-    print('''welcome to hangman''')
+    print('Welcome to Hangman')
 
     # Pick random word from word list
     word = words[random.randint(1,len(words)-1)][0].upper()
@@ -93,87 +93,87 @@ def hangman():
     print()
 
     # Underscores for number of letters in word
-    hiddenWord = []
+    hidden_word = []
     for l in word:
         if l == " ":
-            hiddenWord.append(" ")
+            hidden_word.append(" ")
         else:
-            hiddenWord.append("_")
+            hidden_word.append("_")
 
-    print("Word:", ' '.join(hiddenWord))
+    print("Word:", ' '.join(hidden_word))
     print("\nIncorrect letters:")
     
-    wordAfterGuesses = hiddenWord
+    word_after_guesses = hidden_word
 
     # Game loop
-    gameGoing = True
-    while gameGoing == True:
+    game_going = True
+    while game_going == True:
         
-        if len(liGuessedLetters) == 7:
-            WinLoss = -1
+        if len(list_guessed_letters) == 7:
+            win_lose = -1
             break
 
-        validGuess = False
-        while validGuess == False:
+        valid_guess = False
+        while valid_guess == False:
             guess = input("\nGuess a letter: ").lower()
 
             if len(guess) != 1 or guess not in "abcdefghijklmnopqrstuvwxyz":
                 screen_clear()
                 print()
-                print(man[len(liGuessedLetters)])
+                print(man[len(list_guessed_letters)])
                 print()
-                print(' '.join(wordAfterGuesses))
-                print("\nIncorrect letters:", ', '.join(str(c) for c in liGuessedLetters))
+                print(' '.join(word_after_guesses))
+                print("\nIncorrect letters:", ', '.join(str(c) for c in list_guessed_letters))
                 print("\nyou need to guess a letter")
 
-            elif guess.upper() in liGuessedLetters or guess.upper() in wordAfterGuesses:
+            elif guess.upper() in list_guessed_letters or guess.upper() in word_after_guesses:
                 screen_clear()
                 print()
-                print(man[len(liGuessedLetters)])
+                print(man[len(list_guessed_letters)])
                 print()
-                print(' '.join(wordAfterGuesses))
-                print("\nIncorrect letters:", ', '.join(str(c) for c in liGuessedLetters))
+                print(' '.join(word_after_guesses))
+                print("\nIncorrect letters:", ', '.join(str(c) for c in list_guessed_letters))
                 print("\nyou already guessed that")
             
             else:
-                validGuess = True
+                valid_guess = True
 
         screen_clear()
 
         print()
-        print(man[len(liGuessedLetters)])
+        print(man[len(list_guessed_letters)])
 
         guess = guess.upper()
 
         if guess in word:
             # Replace underline in word with letter that is correctly guessed
-            indexesOfLetters = [c for c in range(len(word)) if word.startswith(guess, c)]
+            indexes_of_letters = [c for c in range(len(word)) if word.startswith(guess, c)]
             for x in range(len(word)):
-                if x in indexesOfLetters:
-                    wordAfterGuesses[x] = guess
+                if x in indexes_of_letters:
+                    word_after_guesses[x] = guess
             
         # If all letters are known, the game is won
-        if '_' not in wordAfterGuesses:
-            WinLoss = 1
+        if '_' not in word_after_guesses:
+            win_lose = 1
             break
 
         # Add incorrect guesses to incorrect guesses list
         if guess not in word:
-            liGuessedLetters.append(guess)
+            list_guessed_letters.append(guess)
 
         # Show incorrect guesses
         print()
-        print(' '.join(wordAfterGuesses))
-        print("\nIncorrect letters:", ', '.join(str(c) for c in liGuessedLetters))
+        print(' '.join(word_after_guesses))
+        print("\nIncorrect letters:", ', '.join(str(c) for c in list_guessed_letters))
 
     # Game lose and game win messages
-    if WinLoss == -1:
+    if win_lose == -1:
         screen_clear()
         print()
-        print(man[len(liGuessedLetters)])
+        print(man[len(list_guessed_letters)])
         print()
-        print(' '.join(wordAfterGuesses))
-        print("\nIncorrect letters:", ', '.join(str(c) for c in liGuessedLetters))
+        print(' '.join(word_after_guesses))
+        print("\nIncorrect letters:", ', '.join(str(c) for c in list_guessed_letters))
         print()
         print('\nYOU LOST')
         print("The word was", word)
